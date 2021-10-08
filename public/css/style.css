@@ -1,0 +1,154 @@
+
+html,body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    /* flex-direction: column; */
+    margin-top: 4em;
+    
+}
+
+.box-form{
+    width: 500px;
+}
+
+.title-form{
+    display: flex;
+    width: 100%;
+    padding: 1em;
+    box-shadow: 12px 12px 6px -8px rgba(0,0,0,0.57);
+-webkit-box-shadow: 12px 12px 6px -8px rgba(0,0,0,0.57);
+-moz-box-shadow: 12px 12px 6px -8px rgba(0,0,0,0.57);
+    border-radius: 30px;
+    margin-bottom: 2em;
+    justify-content: space-around;
+    background: rgb(11,208,6);
+    background: linear-gradient(0deg, rgba(11,208,6,1) 0%, rgba(1,228,4,1) 51%, rgba(81,230,108,1) 100%);
+}
+
+.title-form h2{
+    color: #fff;
+    font-size: 40px;
+    margin-top: .1em;
+
+}
+
+.form-control{
+    width: 100%;
+    padding: 1em;
+   /*  border: 1px solid green; */
+}
+.form-group{
+    margin-bottom: 1em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* position: relative; */
+}
+
+
+
+.form-group label{
+    width: 50%;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.form-group small{
+    color: red;
+    padding-left: .2em;
+}
+
+.form-group .form-input{
+    width: 50%;
+    position: relative;
+}
+.form-group .form-input input,select{
+    width: 100%;
+    border: 1px solid rgb(38, 156, 38);
+    padding: 8px;
+    border-radius: 5px;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+.date-format{
+    position: relative;
+}
+.date-container{
+    position: relative;
+}
+.date-format{
+    position: absolute;
+    width: 80%!important;
+    height: 30px;
+    top: 5px;
+    left: 8px;
+    border: none!important;
+    background-color: white;
+    padding: 1px!important;
+    outline: none;
+}
+
+input[type="date" i]::selection {
+    color: transparent;
+    background-color: white;
+}
+
+
+.btn-input{
+    margin-top: 3em;
+    text-align: center;
+}
+
+.alert{
+    display: none;
+}
+
+.btn-input button{
+    border: 1px solid rgb(38, 156, 38);
+    color: #fff;
+    font-weight: 500;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: rgb(38, 156, 38);
+    padding: .4em 1.5em;
+    box-shadow: 3px 5px 5px -3px rgba(0,0,0,0.22);
+    -webkit-box-shadow: 3px 5px 5px -3px rgba(0,0,0,0.22);
+    -moz-box-shadow: 3px 5px 5px -3px rgba(0,0,0,0.22);
+    font-size: 16px;
+}
+.btn-input button:hover{
+    opacity: .9;
+}
+
+.form-input .list-country{
+    position: absolute;
+    left: 0;
+    width: 100%;
+    background-color: #f3f3f3;
+    max-height: 150px;
+    display: none;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.form-input .list-country p{
+    margin: 0 0 ;
+    padding: .5em .8em;
+    cursor: pointer;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+}
+.form-input .list-country p:hover{
+    background-color: rgba(0, 119, 255, 0.171);
+}

@@ -4,8 +4,24 @@ import React from 'react';
 export function App(){
     var months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Agos','Sept','Oct','Nov','Dic'];
     var countrys = [];
+    var string = "";
     return(
         <div className="container">
+            <div className="dialog" id="dialog">
+                <div className="dialog-box">
+                    <div className="title-dialog">Contacto</div>
+                    <div className="dialog-body">
+                        <span className='close-dialog' onClick={closeDialog}>X</span>
+                        <div id="content-dialog" id="content-dialog">
+                            
+                            
+                        </div>
+                    </div>
+                    <div className="footer-dialog">
+                        <button type='button' onClick={closeDialog}>OK</button>
+                    </div>
+                </div>
+            </div>
             <div className="box-form">
                 <div className="title-form">
                     <h2>Green Leaves</h2>
@@ -16,22 +32,22 @@ export function App(){
                     <div className="form-group">
                         <label htmlFor="name" >Nombre</label>
                         <div className="form-input">
-                            <input type="text" name="name" name="name" placeholder="Nombre"/>
-                            <small className="alert" data-alert="name"></small>
+                            <input type="text" id="name" name="name" placeholder="Nombre"/>
+                            <small className="alert" id="alert-name"></small>
                         </div>
                     </div>
                     <div className="form-group">
                         <label htmlFor="email" >E-mail</label>
                         <div className="form-input">
                             <input type="text" name="email" id="email" placeholder="Correo"/>
-                            <small className="alert" data-alert="email"></small>
+                            <small className="alert" id="alert-email"></small>
                         </div>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="phone" >Télefono</label>
+                        <label htmlFor="phone" >Teléfono</label>
                         <div className="form-input">
-                            <input type="number" onKeyUp={ inputValidation }  name="phone" id="phone" placeholder="Telefono"/>
-                            <small className="alert" data-alert="phone"></small>
+                            <input type="number" onKeyUp={ inputValidation }  name="phone" id="phone" placeholder="Teléfono"/>
+                            <small className="alert" id="alert-phone"></small>
                         </div>
                     </div>
                     <div className="form-group">
@@ -41,7 +57,7 @@ export function App(){
                                 <input type="date" onChange={ getDate } name="date" id="date" placeholder="Fecha"/>
                                 <input type="text" placeholder="Fecha" readOnly className="date-format" value="" id="date-format"/>
                             </div>
-                            <small className="alert" data-alert="date"></small>
+                            <small className="alert" id="alert-date"></small>
                         </div>
                     </div>
                     <div className="form-group">
@@ -51,33 +67,55 @@ export function App(){
                             <div className="list-country" id="list-country" >
                                
                             </div>
-                            <small className="alert" data-alert="city"></small>
+                            <small className="alert" id="alert-city"></small>
                         </div>
                     </div>
                     <div className="btn-input">
-                        <button type="submit">Enviar</button>
+                        <button type="button" onClick={sendData}>Enviar</button>
                     </div>
                 </form>
+
+                <div className="success" id="success">
+                
+                </div>
             </div>
         </div>
+        
         )
 
 
-        
+        function emailValidation(email) {
+            var regexp = /^[a-zA-Z0-9][\-_\.\+\!\#\$\%\&\'\*\/\=\?\^\`\{\|]{0,1}([a-zA-Z0-9][\-_\.\+\!\#\$\%\&\'\*\/\=\?\^\`\{\|]{0,1})*[a-zA-Z0-9]@[a-zA-Z0-9][-\.]{0,1}([a-zA-Z][-\.]{0,1})*[a-zA-Z0-9]\.[a-zA-Z0-9]{1,}([\.\-]{0,1}[a-zA-Z]){0,}[a-zA-Z0-9]{0,}$/i;
+            return regexp.test(String(email).toLowerCase());
+        }
+        function numberValidation(number) {
+            var regexp = /^\d+$/;
+            return regexp.test(String(number).toLowerCase());
+        }
+
         function inputValidation(e){
-            if(e.key == "e" || e.key == "-" || e.key == "." || e.key == "," || e.key == "+" ){
-                return false;
+            
+            
+           if(e.key == "e"  || e.key == "." || e.key == "," ){
+                e.target.value = string;
+            }else{
+                if(e.key == "#" || e.key == ")" || e.key == "("){
+                    string = e.target.value;
+                }
             }
 
-            if(e.target.value.length >10){
-                if(e.keyCode == 8 || e.keyCode == 37 || e.keyCode == 39){
-                }else{
-                    return false;
-                }
+            if(string >9){
+                
+                e.target.value = string;
+              
             }
         }
 
-       
+       function closeDialog(){
+            var dialog = document.getElementById('dialog');
+            dialog.style.display = 'none';
+
+       }
 
         function getDate(e) {
             var date = e.target.value;
@@ -107,8 +145,70 @@ export function App(){
 
         }
 
-        function setValueCity(e){
-            console.log("algo");
+       
+        function sendData(e){
+            var arrayNamesForm = ['name','email','phone','date','city'];
+            var arrayNamesEsp = ['nombre','correo','teléfono','fecha','ciudad y estado'];
+
+            var status = true;
+            var html = "<p>Se encontraron los siguientes errores en sus datos de contacto: </p> \n";
+                html += '<li>Faltan datos<li>';
+
+            for(let i = 0; i < arrayNamesForm.length ; i++){
+                var input = document.getElementById(arrayNamesForm[i]).value;
+                let alert = document.getElementById('alert-'+arrayNamesForm[i]);
+
+                if(input != '' && arrayNamesForm[i] === 'email'){
+                    if(!emailValidation(input)){
+                        html += '<li>El campo email no es valido.</li> \n';
+                        alert.innerText = "El campo email es requerido";
+                        alert.style.display = 'block';
+                        status = false; 
+                    }
+                }else if(input === ''){
+                    html += '<li>El campo '+arrayNamesEsp[i]+' no debe ser vacio.</li> \n';
+                    alert.innerText = "El campo "+arrayNamesEsp[i]+" es requerido";
+                    alert.style.display = 'block';
+                    status = false;  
+                }
+            }
+
+            if(status === false){
+                var dialog = document.getElementById('content-dialog');
+                dialog.innerHTML = html;
+                var dialog = document.getElementById('dialog');
+                dialog.style.display = 'flex';
+            }else{
+                var name = document.getElementById(arrayNamesForm[0]).value;
+                var email = document.getElementById(arrayNamesForm[1]).value;
+                
+                var text = `
+                    <p>Estimado ${name},</p>
+
+                    <p>
+                        Hemos recibido sus datos y nos pondremos en contacto con usted en la
+                        brevedad posible. Enviaremos un correo con información a su cuenta:
+                        <a href = "${email}">${email}</a>
+                    </p>
+
+                    <div class="footer-success">
+                            <p>Atte</p>
+                            <p class="green">Green Leaves</p>
+                            <p>Monterrey, Nuevo Leon, México a 06-Mar-2021</p>
+                    </div>
+                `;
+
+                var success = document.getElementById('success');
+                var formContact = document.getElementById('form-contact');
+                
+                success.innerHTML = text;
+
+                formContact.style.display = 'none';
+                success.style.display = 'block';
+
+
+            }
+            
         }
 
 
@@ -126,13 +226,22 @@ export function App(){
                 let html = "";
 
                 array.forEach(obj => {
+                    var pagraph = document.createElement('p');
+                    pagraph.innerHTML = obj.name+", "+obj.adminName1+", "+obj.countryName;
                     
-                    html += '<p onClick={setValueCity} >'+ obj.name+", "+obj.adminName1+", "+obj.countryName + '</p>\n';
+                    listDisplay.appendChild(pagraph);
+
+                   /*  html += '<p onclick="setValueCity()" >'+  + '</p>\n'; */
                 });
-                    listDisplay.innerHTML = html;
 
                     listDisplay.style.display = 'block';
              
             })
         }
+
+        function setValueCity(){
+            console.log("algo");
+        }
 }
+
+

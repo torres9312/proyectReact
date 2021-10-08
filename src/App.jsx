@@ -30,28 +30,28 @@ export function App(){
                 
                 <form className="form-control" id="form-contact">
                     <div className="form-group">
-                        <label htmlFor="name" >Nombre</label>
+                        <label htmlFor="name" >Nombre: </label>
                         <div className="form-input">
                             <input type="text" id="name" name="name" placeholder="Nombre"/>
                             <small className="alert" id="alert-name"></small>
                         </div>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="email" >E-mail</label>
+                        <label htmlFor="email" >E-mail: </label>
                         <div className="form-input">
                             <input type="text" name="email" id="email" placeholder="Correo"/>
                             <small className="alert" id="alert-email"></small>
                         </div>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="phone" >Teléfono</label>
+                        <label htmlFor="phone" >Teléfono: </label>
                         <div className="form-input">
-                            <input type="number" onKeyUp={ inputValidation }  name="phone" id="phone" placeholder="Teléfono"/>
+                            <input type="number" onKeyUp={ inputValidation } name="phone" id="phone" placeholder="Teléfono"/>
                             <small className="alert" id="alert-phone"></small>
                         </div>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="date" >Fecha</label>
+                        <label htmlFor="date" >Fecha: </label>
                         <div className="form-input">
                             <div className="date-container">
                                 <input type="date" onChange={ getDate } name="date" id="date" placeholder="Fecha"/>
@@ -61,7 +61,7 @@ export function App(){
                         </div>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="city" name="city">Ciudad y Estado</label>
+                        <label htmlFor="city" name="city">Ciudad y Estado: </label>
                         <div className="form-input">
                             <input type="text" placeholder="Ciudad y Estado" onBlur={hideList} autoComplete="off" onKeyUp={ getNamesCity } name="city" id="city" />
                             <div className="list-country" id="list-country" >
@@ -88,28 +88,18 @@ export function App(){
             var regexp = /^[a-zA-Z0-9][\-_\.\+\!\#\$\%\&\'\*\/\=\?\^\`\{\|]{0,1}([a-zA-Z0-9][\-_\.\+\!\#\$\%\&\'\*\/\=\?\^\`\{\|]{0,1})*[a-zA-Z0-9]@[a-zA-Z0-9][-\.]{0,1}([a-zA-Z][-\.]{0,1})*[a-zA-Z0-9]\.[a-zA-Z0-9]{1,}([\.\-]{0,1}[a-zA-Z]){0,}[a-zA-Z0-9]{0,}$/i;
             return regexp.test(String(email).toLowerCase());
         }
-        function numberValidation(number) {
+
+
+        function phoneValidation(number) {
             var regexp = /^\d+$/;
-            return regexp.test(String(number).toLowerCase());
+            return regexp.test(String(number));
+        }
+        function nameValidation(number) {
+            var regexp = /[a-zA-Z]/;
+            return regexp.test(String(number));
         }
 
-        function inputValidation(e){
-            
-            
-           if(e.key == "e"  || e.key == "." || e.key == "," ){
-                e.target.value = string;
-            }else{
-                if(e.key == "#" || e.key == ")" || e.key == "("){
-                    string = e.target.value;
-                }
-            }
-
-            if(string >9){
-                
-                e.target.value = string;
-              
-            }
-        }
+        
 
        function closeDialog(){
             var dialog = document.getElementById('dialog');
@@ -145,26 +135,70 @@ export function App(){
 
         }
 
+        function inputValidation(e){
+            
+            
+            if(e.key == "e"  || e.key == "." || e.key == "," ){
+                e.preventDefault();
+             }else{
+                 
+             }
+ 
+             if(e.target.value >9){
+                return;  
+             }
+        }
+
        
         function sendData(e){
+            document.getElementsByClass(name).style.property = new style;
+
             var arrayNamesForm = ['name','email','phone','date','city'];
             var arrayNamesEsp = ['nombre','correo','teléfono','fecha','ciudad y estado'];
 
             var status = true;
             var html = "<p>Se encontraron los siguientes errores en sus datos de contacto: </p> \n";
-                html += '<li>Faltan datos<li>';
+                html += '<li>Faltan datos<li>\n';
 
             for(let i = 0; i < arrayNamesForm.length ; i++){
                 var input = document.getElementById(arrayNamesForm[i]).value;
                 let alert = document.getElementById('alert-'+arrayNamesForm[i]);
 
-                if(input != '' && arrayNamesForm[i] === 'email'){
-                    if(!emailValidation(input)){
-                        html += '<li>El campo email no es valido.</li> \n';
-                        alert.innerText = "El campo email es requerido";
-                        alert.style.display = 'block';
-                        status = false; 
+                
+
+                if(input != '' ){
+                    if(arrayNamesForm[i] === 'email'){
+                        if(!emailValidation(input)){
+                            html += '<li>El correo que ingresó no es valido.</li> \n';
+                            alert.innerText = "El campo email es requerido";
+                            alert.style.display = 'block';
+                            status = false; 
+                        }
                     }
+
+                    if(arrayNamesForm[i] === 'phone'){
+                        if(!phoneValidation(input)){
+                            html += '<li>El campo teléfono solo puede contener números.</li> \n';
+                            alert.innerText = "El teléfono es incorrecto";
+                            alert.style.display = 'block';
+                            status = false; 
+                            
+                        }
+                    
+                    }
+
+                    if(arrayNamesForm[i] === 'name'){
+                        if(!nameValidation(input)){
+                            html += '<li>El campo nombre solo puede contener letras.</li> \n';
+                            alert.innerText = "El nombre es incorrecto";
+                            alert.style.display = 'block';
+                            status = false; 
+                            
+                        }
+                    
+                    }
+                    
+                    
                 }else if(input === ''){
                     html += '<li>El campo '+arrayNamesEsp[i]+' no debe ser vacio.</li> \n';
                     alert.innerText = "El campo "+arrayNamesEsp[i]+" es requerido";
@@ -183,7 +217,7 @@ export function App(){
                 var email = document.getElementById(arrayNamesForm[1]).value;
                 
                 var text = `
-                    <p>Estimado ${name},</p>
+                    <p>Estimado <strong>${name}</strong>,</p>
 
                     <p>
                         Hemos recibido sus datos y nos pondremos en contacto con usted en la

@@ -102,6 +102,11 @@ html,body{
     width: 700px;
 }
 
+.suggestions li {
+    padding: 0.2rem;
+    list-style: none;
+  }
+
 .title-form{
     display: flex;
     width: 100%;
@@ -223,6 +228,33 @@ input[type="date" i]::selection {
     overflow-x: hidden;
     overflow-y: auto;
 }
+.form-input .suggestions{
+    position: absolute;
+    left: 0;
+    width: 100%;
+    background-color: #f3f3f3;
+    max-height: 150px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+}
+.form-input .no-suggestions{
+    position: absolute;
+    left: 0;
+    width: 100%;
+    background-color: #f3f3f3;
+    max-height: 150px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+}
+.form-input .suggestions li{
+    padding: 8px 5px;
+}
+
+
 
 .form-input .list-country p{
     margin: 0 0 ;
@@ -233,4 +265,9 @@ input[type="date" i]::selection {
 }
 .form-input .list-country p:hover{
     background-color: rgba(0, 119, 255, 0.171);
+}
+
+.form-input .suggestions li:hover{
+    background-color: rgba(0, 119, 255, 0.171);
+    cursor: pointer;
 }

@@ -63,7 +63,7 @@ export function App(){
                     <div className="form-group">
                         <label htmlFor="city" name="city">Ciudad y Estado</label>
                         <div className="form-input">
-                            <input type="text" placeholder="Ciudad y Estado" onBlur={hideList} autoComplete="off" onKeyUp={ getNamesCity } name="city" id="city" />
+                            <input type="text" placeholder="Ciudad y Estado" onClick={getData} autoComplete="off" onKeyUp={ getNamesCity } name="city" id="city" />
                             <div className="list-country" id="list-country" >
                                
                             </div>
@@ -211,6 +211,7 @@ export function App(){
             
         }
 
+        
 
         function getListCountry(name) {
             var url = 'http://api.geonames.org/searchJSON?q='+name+'&maxRows=10&username=devuser';
@@ -228,20 +229,51 @@ export function App(){
                 array.forEach(obj => {
                     var pagraph = document.createElement('p');
                     pagraph.innerHTML = obj.name+", "+obj.adminName1+", "+obj.countryName;
-                    
+                    /* pagraph.addEventListener('click',getData()); */
                     listDisplay.appendChild(pagraph);
 
                    /*  html += '<p onclick="setValueCity()" >'+  + '</p>\n'; */
                 });
 
                     listDisplay.style.display = 'block';
-             
+                    AddOnclickOnload();
+
+                
             })
         }
 
-        function setValueCity(){
-            console.log("algo");
+
+        function getData(e){
+            var input = document.getElementById("city");
+            var list = document.getElementById("list-country");
+            input.value = e.target.textContent;
+
+            list.style.display = 'none';
+
         }
+
+
+        function AddOnclickOnload() {
+            var divArr = document.getElementsByClassName("list-country");
+            for (var i = 0; i < divArr.length; i++) {
+                AddEvent(divArr[i], "click", getData);
+            }
+        }
+
+
+        function AddEvent(obj, eventType, functionName) {
+            if(obj.addEventListener){
+                   obj.addEventListener(eventType, functionName, false);//W3C standard
+            }
+            else if(obj.attachEvent){
+                   obj.attachEvent("on" + eventType, functionName);//ie
+            }
+            else {
+                   obj["on" + eventType] = functionName;//dom
+            }
+        }  
+
+        
 }
 
 

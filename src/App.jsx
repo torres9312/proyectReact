@@ -151,7 +151,7 @@ export function App(){
 
        
         function sendData(e){
-            document.getElementsByClass(name).style.property = new style;
+            
 
             var arrayNamesForm = ['name','email','phone','date','city'];
             var arrayNamesEsp = ['nombre','correo','teléfono','fecha','ciudad y estado'];
